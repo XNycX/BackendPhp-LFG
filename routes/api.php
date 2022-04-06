@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +31,20 @@ Route::get('/{id}', [GameController::class, 'getById']);
 Route::put('/{id}', [GameController::class, 'update']);
 Route::delete('/{id}', [GameController::class, 'delete']);
 });
+
+//CRUD USER
+Route::prefix('users')->group(function () {
+Route::get('/info', [UserController::class, 'getAll']);
+Route::get('/{id}', [UserController::class, 'getById']);
+Route::put('/{id}', [UserController::class, 'update']);
+Route::delete('/{id}', [UserController::class, 'delete']);
+Route::post('/register', [AuthController::class, 'register']);
+
+});
+
+
+//Auth
+
+
+
+
