@@ -23,9 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //CRUD game
 
 Route::prefix('games')->group(function () {
-Route::get('/info', GameController::class, 'getAll');
-Route::get('/game/{id}', GameController::class, 'getById');
-Route::post('/create', GameController::class, 'create');
-Route::put('/game/{id}', GameController::class, 'update');
-Route::delete('/game/{id}', GameController::class, 'delete');
+Route::get('/info', [GameController::class, 'getAll']);
+Route::post('/create', [GameController::class, 'create']);
+Route::get('/{id}', [GameController::class, 'getById']);
+Route::put('/{id}', [GameController::class, 'update']);
+Route::delete('/{id}', [GameController::class, 'delete']);
 });

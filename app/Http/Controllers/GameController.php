@@ -29,6 +29,7 @@ class GameController extends Controller
         try {
             $game = Game::create($request->all());
             Log::info('create game done');
+            
             $data = [
                 'data' => $game,
                 'sucess' => 'ok'
@@ -86,5 +87,5 @@ class GameController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
+
 }
