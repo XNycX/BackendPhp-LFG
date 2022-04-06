@@ -17,3 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+//CRUD game
+
+Route::prefix('games')->group(function () {
+Route::get('/info', GameController::class, 'getAll');
+Route::get('/game/{id}', GameController::class, 'getById');
+Route::post('/create', GameController::class, 'create');
+Route::put('/game/{id}', GameController::class, 'update');
+Route::delete('/game/{id}', GameController::class, 'delete');
+});
