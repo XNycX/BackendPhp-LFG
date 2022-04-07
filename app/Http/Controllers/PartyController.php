@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BelongTo;
+use App\Models\Belong;
 use App\Models\Party;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,29 +30,18 @@ class PartyController extends Controller
     }
     public function create(Request $request)
     {
-        $user = Auth::id();
-        $name = $request->input('name');
-        $game = $request->input('gameId');
-
         try {
-            $party = Party::create([
-
-                    'owner' => $user,
-                    'name' => $name,
-                    'gameId' => $game
-
-                ]);
-
-            BelongTo::create([
-                    'userId' => $user,
-                    'partyId' => $party["id"]
-                ]);
-        } 
-        catch (QueryException $error) {
-            $errorCode = $error->errorInfo[1];
-            return response()->json([
-                'error' => $errorCode
-            ]);  
+            $party = Party::create($request->all());
+            Log::info('create party done');
+            
+            $data = [
+                'data' => $party,
+                'sucess' => 'ok'
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
     public function getById($id)

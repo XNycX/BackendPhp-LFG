@@ -14,10 +14,11 @@ class Game extends Model
         'url', 
         'description'
 ];
-public function parties()
+public function user() {
     {
         return $this->hasMany(Party::class);
     }
+}
 }
 
 

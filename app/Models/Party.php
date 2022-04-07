@@ -10,16 +10,13 @@ class Party extends Model
     use HasFactory;
     public $fillable = [
         'name',
-        'OwnerID',
-        'GameID'
+        'owner',
+        'gameId'
     ];
-    public function games()
-    {
-        return $this->belongsTo(Game::class);
+    public function games() {
+        return $this->belongsTo('App\Models\Game','gameId','id' );
     }
-
-    public function players()
-    {
-        return $this->belongsTo(User::class);
+    public function belongs() {
+        return $this->hasMany(BelongTo::class);
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PartyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+// Route::middleware('auth:api')->group(function(){
 //CRUD game
 
 Route::prefix('games')->group(function () {
@@ -49,11 +50,14 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::prefix('parties')->group(function () {
 Route::get('/info', [PartyController::class, 'getAll']);
 Route::get('/{id}', [PartyController::class, 'getById']);
-Route::post('getByGameId',[PartyController::class, "getByGameId"]);
+Route::get('getByGameId',[PartyController::class, "getByGameId"]);
 Route::put('/{id}', [PartyController::class, 'update']);
 Route::delete('/{id}', [PartyController::class, 'delete']);
 Route::post('/create', [PartyController::class, 'create']);
 });
+
+
+// });
 
 
 
