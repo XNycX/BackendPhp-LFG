@@ -8,5 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'thumbnail', 'url', 'description'];
+    protected $fillable = [
+        'title',
+        'thumbnail',
+        'url', 
+        'description'
+];
+public function parties()
+    {
+        return $this->hasMany(Party::class);
+    }
 }
+
+

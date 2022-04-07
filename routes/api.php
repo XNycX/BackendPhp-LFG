@@ -40,10 +40,20 @@ Route::put('/{id}', [UserController::class, 'update']);
 Route::delete('/{id}', [UserController::class, 'delete']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 
-//Auth
+
+//CRUD party
+Route::prefix('parties')->group(function () {
+Route::get('/info', [PartyController::class, 'getAll']);
+Route::get('/{id}', [PartyController::class, 'getById']);
+Route::put('/{id}', [PartyController::class, 'update']);
+Route::delete('/{id}', [PartyController::class, 'delete']);
+Route::post('/create', [PartyController::class, 'create']);
+});
+
 
 
 

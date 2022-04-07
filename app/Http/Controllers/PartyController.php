@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Party;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class UserController extends Controller
+class PartyController extends Controller
 {
-    public function getAll()
+    
+            public function getAll()
     {
         try {
-            $users = User::all();
-            Log::info('get all users done');
+            $parties = Party::all();
+            Log::info('get all parties done');
             $data = [
-                'data' => $users,
+                'data' => $parties,
                 'sucess' => 'ok'
             ];
             return response()->json($data, 200);
@@ -27,11 +28,11 @@ class UserController extends Controller
     public function create(Request $request)
     {
         try {
-            $user = User::create($request->all());
-            Log::info('create user done');
+            $party = Party::create($request->all());
+            Log::info('create party done');
             
             $data = [
-                'data' => $user,
+                'data' => $party,
                 'sucess' => 'ok'
             ];
             return response()->json($data, 200);
@@ -43,10 +44,10 @@ class UserController extends Controller
     public function getById($id)
     {
         try {
-            $user = User::find($id);
-            Log::info('get user by id done');
+            $party = Party::find($id);
+            Log::info('get party by id done');
             $data = [
-                'data' => $user,
+                'data' => $party,
                 'sucess' => 'ok'
             ];
             return response()->json($data, 200);
@@ -58,35 +59,17 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $user = User::find($id);
-            $user->update($request->all());
-            Log::info('update user done');
+            $party = Party::find($id);
+            $party->update($request->all());
+            Log::info('update party done');
             
             $data = [
-                'data' => $user,
+                'data' => $party,
                 'sucess' => 'ok'
             ];
             return response()->json($data, 200);
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
-    }public function delete(Request $request) {
-        try {
-            $user = User::find($request->id);
-            $user->delete();
-            Log::info('delete user done');
-            
-            $data = [
-                'data' => $user,
-                'sucess' => 'ok'
-            ];
-            return response()->json($data, 200);
-        } catch (Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
-
+}
     }
-
 }

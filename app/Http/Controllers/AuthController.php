@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
 use App\Models\User;
 use Exception;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -42,7 +43,7 @@ class AuthController extends Controller
             }
         }
     }
-    public function Login(Request $request)
+    public function login(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email',
@@ -65,9 +66,7 @@ class AuthController extends Controller
         
     }
 
-    public function logout()
-    {
-
+    public function logout() { 
         try {
             $user = Auth::user();
             $token = $user->token();
@@ -77,6 +76,5 @@ class AuthController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
-       
 }
+       
