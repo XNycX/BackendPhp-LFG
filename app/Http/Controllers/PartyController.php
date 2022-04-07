@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BelongTo;
 use App\Models\Party;
 use Exception;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PartyController extends Controller
 {
-    
-            public function getAll()
+    public function getAll()    
     {
         try {
             $parties = Party::all();
@@ -28,18 +30,29 @@ class PartyController extends Controller
     }
     public function create(Request $request)
     {
+        $user = Auth::id();
+        $name = $request->input('name');
+        $game = $request->input('gameId');
+
         try {
-            $party = Party::create($request->all());
-            Log::info('create party done');
-            
-            $data = [
-                'data' => $party,
-                'sucess' => 'ok'
-            ];
-            return response()->json($data, 200);
-        } catch (Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(['error' => $exception->getMessage()], 500);
+            $party = Party::create([
+
+                    'owner' => $user,
+                    'name' => $name,
+                    'gameId' => $game
+
+                ]);
+
+            BelongTo::create([
+                    'userId' => $user,
+                    'partyId' => $party["id"]
+                ]);
+        } 
+        catch (QueryException $error) {
+            $errorCode = $error->errorInfo[1];
+            return response()->json([
+                'error' => $errorCode
+            ]);  
         }
     }
     public function getById($id)
@@ -58,7 +71,6 @@ class PartyController extends Controller
         }
     }public function getByGameId(Request $request){
         $id = $request->input('id');
-
         try {
             $party = Party::selectRaw('parties.name , games.title, users.username')
             ->join('games', 'parties.GameID', '=', 'games.id')
