@@ -39,7 +39,7 @@ Route::get('/{id}', [UserController::class, 'getById']);
 Route::put('/{id}', [UserController::class, 'update']);
 Route::delete('/{id}', [UserController::class, 'delete']);
 Route::post('/register', [AuthController::class, 'register']);
-
+Route::post('/login', [AuthController::class, 'login']);
 });
 
 

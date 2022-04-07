@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -40,33 +42,41 @@ class AuthController extends Controller
             }
         }
     }
-    // public function Login(Request $request)
-    // {
-    //     $data = [
-    //         'email' => $request->email,
-    //         'password' => $request->password
-    //     ];
+    public function Login(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ], [
+            'email' => 'Email is required',
+            'password' => 'Password is required'
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                $token = $user->createToken('LaravelAuthApp')->accessToken;
+                return response()->json(['token' => $token], 200);
+            } else {
+                return response()->json(['error' => 'Password is incorrect'], 401);
+            }
+        } else {
+            return response()->json(['error' => 'Email is incorrect'], 401);
+        }
+        
+    }
 
-    //     if (auth()->attempt($data)) {
-    //         $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
-    //         return response()->json(['token' => $token], 200);
-    //     } else {
-    //         return response()->json(['error' => 'Unauthorised'], 401);
-    //     }
-    // }
+    public function logout()
+    {
 
-    // public function logout()
-    // {
-
-    //     $user = Auth::user()->token();
-
-    //     try {
-
-    //         $user->revoke();
-    //         return 'logged out';
-    //     } catch (QueryException $error) {
-
-    //         return $error;
-    //     }
-    // }
+        try {
+            $user = Auth::user();
+            $token = $user->token();
+            $token->revoke();
+            return response()->json(['message' => 'Logout successfully'], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    
+       
 }

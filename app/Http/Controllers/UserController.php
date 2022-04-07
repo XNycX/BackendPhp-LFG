@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -71,5 +72,25 @@ class UserController extends Controller
             Log::error($exception->getMessage());
             return response()->json(['error' => $exception->getMessage()], 500);
         }
+    }public function delete(Request $request) {
+        try {
+            $user = User::find($request->id);
+            $user->delete();
+            Log::info('delete user done');
+            
+            $data = [
+                'data' => $user,
+                'sucess' => 'ok'
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+       
+
+        
+
     }
+
 }
