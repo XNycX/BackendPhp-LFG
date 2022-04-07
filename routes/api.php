@@ -49,6 +49,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::prefix('parties')->group(function () {
 Route::get('/info', [PartyController::class, 'getAll']);
 Route::get('/{id}', [PartyController::class, 'getById']);
+Route::post('getByGameId',[PartyController::class, "getByGameId"]);
 Route::put('/{id}', [PartyController::class, 'update']);
 Route::delete('/{id}', [PartyController::class, 'delete']);
 Route::post('/create', [PartyController::class, 'create']);
