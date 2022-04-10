@@ -12,15 +12,9 @@ class Message extends Model
     protected $fillable = ['message', 'from', 'partyId'];
 
     public function user() {
-
-        return $this->belongsTo('App\Models\User','from','id');
-        
+        return $this->belongsTo('App\Models\User','from','id');   
     }
-
     public function party() {
-
-        return $this->belongsTo('App\Models\Party','partyId','id');
-        
+        return $this->belongsTo('App\Models\Party','partyId','id');   
     }    
-
 }
