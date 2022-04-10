@@ -35,7 +35,7 @@ class MessageController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);     
         }
     }
-    public function info() {
+    public function getAll() {
         try { 
             return Message::all();
         } 
