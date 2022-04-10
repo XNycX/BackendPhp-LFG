@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
-    public function addMessage(Request $request) {
+    public function create(Request $request) {
         $user = Auth::id();
         $partyId = $request->input('partyId');
         $message = $request->input('message');
@@ -35,7 +35,7 @@ class MessageController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);     
         }
     }
-    public function getMessages() {
+    public function info() {
         try { 
             return Message::all();
         } 
@@ -44,7 +44,7 @@ class MessageController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
          }
     }
-    public function updateMessage(Request $request) {
+    public function update(Request $request) {
         $user = Auth::id();
         $messageId = $request->input('messageId');
         try {
@@ -63,7 +63,7 @@ class MessageController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);     
         }
     }
-    public function removeMessage(Request $request) {
+    public function delete(Request $request) {
 
         $user = Auth::id();
         $messageId = $request->input('messageId');
