@@ -56,6 +56,15 @@ Route::delete('/{id}', [PartyController::class, 'delete']);
 Route::post('/create', [PartyController::class, 'create']);
 });
 
+Route::prefix('messages')->group(function () {
+
+    Route::get('/info', [MessageController::class, 'getAll']);
+    Route::post('create', [MessageController::class, 'create']);
+    Route::put('updateMessage', [MessageController::class, 'update']);
+    Route::delete('removeMessage', [MessageController::class, 'delete']);
+    Route::post('getPartyMessages', [MessageController::class, 'getPartyMessages']);
+
+});
 
 // });
 
