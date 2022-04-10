@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Party extends Model
 {
     use HasFactory;
+    protected $table = 'parties';
     public $fillable = [
         'name',
         'owner',

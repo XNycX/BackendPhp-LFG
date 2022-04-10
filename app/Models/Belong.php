@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Belong extends Model
 {
     use HasFactory;
+    protected $table = 'belongs';
     protected $fillable = ['userId', 'partyId'];
 
     public function user() {
