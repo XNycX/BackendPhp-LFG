@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Belong;
 use App\Models\Message;
-use Illuminate\Database\QueryException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -29,19 +30,18 @@ class MessageController extends Controller
             ]);
             }
         } 
-        catch (QueryException $error) {
-            $errorCode = $error->errorInfo[1];
-            return response()->json([
-                'error' => $errorCode
-            ]);    
+        catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);     
         }
     }
     public function getMessages() {
         try { 
             return Message::all();
         } 
-        catch(QueryException $error) {
-            return $error;
+        catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
          }
     }
     public function updateMessage(Request $request) {
@@ -58,11 +58,9 @@ class MessageController extends Controller
             ]);
             }
         } 
-        catch (QueryException $error) {
-            $errorCode = $error->errorInfo[1];
-            return response()->json([
-                'error' => $errorCode
-            ]);   
+        catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);     
         }
     }
     public function removeMessage(Request $request) {
@@ -88,11 +86,9 @@ class MessageController extends Controller
                 ]);
             }
         }   
-        catch (QueryException $error) {
-            $errorCode = $error->errorInfo[1];
-            return response()->json([
-                'error' => $errorCode
-            ]); 
+        catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
     public function getPartyMessages(Request $request) {
@@ -113,11 +109,9 @@ class MessageController extends Controller
                 ]);
             }
         } 
-        catch (QueryException $error) {
-            $errorCode = $error->errorInfo[1];
-            return response()->json([
-                'error' => $errorCode
-            ]);    
+        catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);     
         }
     }  
 }

@@ -68,8 +68,9 @@ class PartyController extends Controller
             ->get();
             return $party;
 
-        } catch (QueryException $error) {
-            return response()->json(['error' => $error->getMessage()], 500);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
     public function update(Request $request, $id)
