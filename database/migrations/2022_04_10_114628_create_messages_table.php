@@ -15,7 +15,15 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('message');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->unsignedBigInteger('from');
+            $table->foreign('from', 'fk_messages_users')->on('users')->reference('id')
+            ->onDelete('cascade');
+            $table->unsignedBigInteger('partyId');
+            $table->foreign('partyId', 'fk_messages_parties')->on('parties')->references('id')
+            ->onDelete('cascade');
         });
     }
 
