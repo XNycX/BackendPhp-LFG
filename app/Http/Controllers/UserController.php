@@ -71,7 +71,9 @@ class UserController extends Controller
             Log::error($exception->getMessage());
             return response()->json(['error' => $exception->getMessage()], 500);
         }
-    }public function delete(Request $request) {
+    }
+    public function delete(Request $request) 
+    {
         try {
             $user = User::find($request->id);
             $user->delete();

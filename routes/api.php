@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BelongController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
@@ -51,19 +52,18 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::prefix('parties')->group(function () {
 Route::get('/info', [PartyController::class, 'getAll']);
 Route::get('/{id}', [PartyController::class, 'getById']);
-Route::get('getByGameId',[PartyController::class, "getByGameId"]);
+Route::get('/getByGameId',[PartyController::class, "getByGameId"]);
 Route::put('/{id}', [PartyController::class, 'update']);
 Route::delete('/{id}', [PartyController::class, 'delete']);
 Route::post('/create', [PartyController::class, 'create']);
 });
 
 Route::prefix('messages')->group(function () {
-
     Route::get('/info', [MessageController::class, 'getAll']);
     Route::post('/create', [MessageController::class, 'create']);
     Route::put('/update', [MessageController::class, 'update']);
     Route::delete('/delete', [MessageController::class, 'delete']);
-    Route::post('getPartyMessages', [MessageController::class, 'getPartyMessages']);
+    Route::post('/getPartyMessages', [MessageController::class, 'getPartyMessages']);
 
 });
 
