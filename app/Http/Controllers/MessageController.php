@@ -102,9 +102,7 @@ class MessageController extends Controller
 
         try {
             $isMember = Belong::where('userId', '=', $user)->where('partyId', '=', $partyId)->get();
-
             if ($isMember->isNotEmpty()) {
-
                 return Message::selectRaw('messages.id as MessageId, messages.message, users.userName, messages.created_at as Date')
                     ->Join('users', 'users.id', '=', 'messages.from')
                     ->where('messages.partyId', '=', $partyId)
