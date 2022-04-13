@@ -53,9 +53,10 @@ Route::prefix('parties')->group(function () {
 Route::get('/info', [PartyController::class, 'getAll']);
 Route::get('/{id}', [PartyController::class, 'getById']);
 Route::get('/getByGameId',[PartyController::class, "getByGameId"]);
+Route::post('/create', [PartyController::class, 'create']);
 Route::put('/{id}', [PartyController::class, 'update']);
 Route::delete('/{id}', [PartyController::class, 'delete']);
-Route::post('/create', [PartyController::class, 'create']);
+
 });
 
 //CRUD message
