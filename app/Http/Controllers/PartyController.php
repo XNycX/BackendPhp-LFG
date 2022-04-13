@@ -42,6 +42,11 @@ class PartyController extends Controller
                     'userId' => $user,
                     'partyId' => $party["id"]
                 ]);
+            Log::info('create party done');
+            $data = [
+                'data' => $party,
+                'sucess' => 'ok'
+            ];
         }  
         catch (Exception $exception) {
             Log::error($exception->getMessage());

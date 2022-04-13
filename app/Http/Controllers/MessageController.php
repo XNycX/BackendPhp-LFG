@@ -20,7 +20,7 @@ class MessageController extends Controller
             $isMember = Belong::where('userId', '=', $user)->where('partyId', '=', $partyId)->get();
             if ($isMember->isNotEmpty()) {
                 return Message::create([
-                    'from' => $user,
+                    'userId' => $user,
                     'message' => $message,
                     'partyId' => $partyId
                 ]);

@@ -9,10 +9,10 @@ class Message extends Model
 {
     use HasFactory;
     protected $table = 'messages';
-    protected $fillable = ['message', 'from', 'partyId'];
+    protected $fillable = ['message', 'userId', 'partyId'];
 
     public function user() {
-        return $this->belongsTo('App\Models\User','from','id');   
+        return $this->belongsTo('App\Models\User','userId','id');   
     }
     public function party() {
         return $this->belongsTo('App\Models\Party','partyId','id');   
