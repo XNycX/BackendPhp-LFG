@@ -53,6 +53,35 @@ class PartyController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+    public function joinParty(Request $request) {
+
+        $userId = Auth::id();
+        $partyId = $request->input('partyId');
+
+        try {
+
+            $joinParty = Belong::where('userId', '=', $userId)->where('partyId', '=', $partyId)->get();
+
+            if ($joinParty->isNotEmpty()) {
+                return "You are already a member in that party";
+            } 
+            else {
+            Belong::create([
+                'userId' => $userId,
+                'partyId' => $partyId
+            ]);
+            Log::info('join party done');
+            $data = [
+                'data' => 'ok',
+                'sucess' => 'ok'
+            ];
+            return response()->json($data, 200);
+            }
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
     public function getById($id)
     {
         try {
@@ -82,6 +111,60 @@ class PartyController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+    public function getPartiesByGameTitle(Request $request) {
+
+        $gameTitle = $request->input('title');
+
+        try {
+
+            return Party::selectRaw('parties.gameId, parties.name as Party, games.title as Game')
+            ->join('games', 'games.id', '=', 'parties.gameId')
+            ->where('games.title', '=', $gameTitle)
+            ->get();
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    public function getMyParties() {
+        $userId = Auth::id();
+        try {
+            $parties = Belong::selectRaw('parties.name, parties.gameId, games.title')
+            ->join('parties', 'parties.id', '=', 'belongs.partyId')
+            ->join('games', 'games.id', '=', 'parties.gameId')
+            ->where('belongs.userId', '=', $userId)
+            ->get();
+            return $parties;
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    public function getPartyMembers(Request $request) {
+        $userId = Auth::id();
+        $partyId = $request->input('partyId');
+
+        try {
+
+            $party = Party::selectRaw('belongs.partyId, parties.name, users.id, users.userName')
+            ->join('belongs', 'belongs.partyId', '=', 'parties.id')
+            ->join('users', 'users.id', '=', 'belongs.userId')
+            ->where('parties.Id', '=', $partyId)
+            ->orderByRaw('IF(users.id ='.$userId.', 0,1)')
+            ->get();
+
+            if ($party[0]['id'] === $userId) {
+            return $party;
+            } else {
+                return "You are not a member of this party";
+            }
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+
     public function update(Request $request, $id)
     {
         try {
@@ -99,4 +182,73 @@ class PartyController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+    public function delete($id)
+    {
+        try {
+            $party = Party::find($id);
+            $party->delete();
+            Log::info('delete party done');
+            $data = [
+                'data' => $party,
+                'sucess' => 'ok'
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    public function quitParty(Request $request) {
+        $userId = Auth::id();
+        $partyId = $request->input('partyId');
+
+        try {
+
+            $party = Belong::where('userId', '=', $userId)->where('partyId', '=', $partyId)->get();
+
+            if ($party->isNotEmpty()) {
+                $party->delete();
+                Log::info('quit party done');
+                $data = [
+                    'data' => 'ok',
+                    'sucess' => 'ok'
+                ];
+                return response()->json($data, 200);
+            } 
+            else {
+                return "You are not a member of this party";
+            }
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function kickFromParty(Request $request) {
+        $userId = Auth::id();
+        $partyId = $request->input('partyId');
+        $userToKick = $request->input('userToKick');
+
+        try {
+
+            $party = Belong::where('userId', '=', $userToKick)->where('partyId', '=', $partyId)->get();
+
+            if ($party->isNotEmpty()) {
+                $party->delete();
+                Log::info('kick from party done');
+                $data = [
+                    'data' => 'ok',
+                    'sucess' => 'ok'
+                ];
+                return response()->json($data, 200);
+            } 
+            else {
+                return "You are not a member of this party";
+            }
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
 }
