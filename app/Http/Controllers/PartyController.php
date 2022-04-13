@@ -47,6 +47,7 @@ class PartyController extends Controller
                 'data' => $party,
                 'sucess' => 'ok'
             ];
+            return response()->json($data, 200);
         }  
         catch (Exception $exception) {
             Log::error($exception->getMessage());
@@ -198,32 +199,25 @@ class PartyController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    public function quitParty(Request $request) {
+    public function leaveParty(Request $request) {
         $userId = Auth::id();
         $partyId = $request->input('partyId');
 
         try {
 
-            $party = Belong::where('userId', '=', $userId)->where('partyId', '=', $partyId)->get();
-
-            if ($party->isNotEmpty()) {
-                $party->delete();
-                Log::info('quit party done');
-                $data = [
-                    'data' => 'ok',
-                    'sucess' => 'ok'
-                ];
+            $party = Belong::where('userId', '=', $userId)->where('partyId', '=', $partyId)->delete($userId);
+            Log::info('leave party done');
+            
+            $data = [
+                'data' => $party,
+                'sucess' => 'ok'
+            ];
                 return response()->json($data, 200);
-            } 
-            else {
-                return "You are not a member of this party";
-            }
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-
     public function kickFromParty(Request $request) {
         $userId = Auth::id();
         $partyId = $request->input('partyId');
@@ -231,20 +225,15 @@ class PartyController extends Controller
 
         try {
 
-            $party = Belong::where('userId', '=', $userToKick)->where('partyId', '=', $partyId)->get();
+            return Belong::selectRaw('belongs.userId, belongs.partyId')
+            ->join('parties', 'parties.id', '=', 'belongs.partyId')
+            ->join('users', 'users.id', '=', 'belongs.userId')
+            ->where('parties.owner', '=', $userId)
+            ->where('parties.Id', '=', $partyId)
+            ->where('belongs.userId', '=', $userToKick)
+            ->delete($userToKick);
 
-            if ($party->isNotEmpty()) {
-                $party->delete();
-                Log::info('kick from party done');
-                $data = [
-                    'data' => 'ok',
-                    'sucess' => 'ok'
-                ];
-                return response()->json($data, 200);
-            } 
-            else {
-                return "You are not a member of this party";
-            }
+            Log::info('kick from party done');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['error' => $exception->getMessage()], 500);
