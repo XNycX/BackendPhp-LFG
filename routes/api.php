@@ -20,13 +20,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::middleware('auth:api')->group(function(){
-//CRUD game
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
+
+Route::middleware('auth:api')->group(function(){
+//CRUD game
 Route::prefix('games')->group(function () {
 Route::get('/info', [GameController::class, 'getAll']);
 Route::post('/create', [GameController::class, 'create']);
@@ -41,12 +45,8 @@ Route::get('/info', [UserController::class, 'getAll']);
 Route::get('/{id}', [UserController::class, 'getById']);
 Route::put('/{id}', [UserController::class, 'update']);
 Route::delete('/{id}', [UserController::class, 'delete']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+
 });
-
-
 
 //CRUD party
 Route::prefix('parties')->group(function () {
@@ -58,6 +58,7 @@ Route::delete('/{id}', [PartyController::class, 'delete']);
 Route::post('/create', [PartyController::class, 'create']);
 });
 
+//CRUD message
 Route::prefix('messages')->group(function () {
     Route::get('/info', [MessageController::class, 'getAll']);
     Route::post('/create', [MessageController::class, 'create']);
@@ -67,7 +68,7 @@ Route::prefix('messages')->group(function () {
 
 });
 
-// });
+});
 
 
 

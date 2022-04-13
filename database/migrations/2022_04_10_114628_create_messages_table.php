@@ -18,6 +18,9 @@ class CreateMessagesTable extends Migration
             $table->string('message');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
+            $table->unsignedBigInteger('from');
+            $table->foreign('from', 'fk_messages_users')
+            ->on('users')->references('id')->onDelete('cascade');
             $table->unsignedBigInteger('userId');
             $table->foreign('userId', 'fk_messages_users')->on('users') ->references('id')
             ->onDelete('cascade');

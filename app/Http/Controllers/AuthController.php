@@ -15,20 +15,20 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|min:3',
+            'userName' => 'required|string|min:3',
             'email' => 'required|email',
             'password' => 'required|min:6',
             'steamUserName' => 'required|string|min:6'
         ], [
 
-            'name' => 'name is required',
+            'userName' => 'userName is required',
             'email' => 'Email is required',
             'password' => 'Password is required',
             'steamUserName' => 'SteamUserName is required'
         ]);
         try {
             $user = User::create([
-                'name' => $request->name,
+                'userName' => $request->userName,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'steamUserName' => $request->steamUserName
