@@ -103,7 +103,7 @@ class PartyController extends Controller
             $party = Party::selectRaw('parties.name , games.title, users.username')
             ->join('games', 'parties.GameID', '=', 'games.id')
             ->where('parties.GameID', "=", $id)
-            ->join('users', 'parties.OwnerID', '=', 'users.id')
+            ->join('users', 'parties.Owner', '=', 'users.id')
             ->get();
             return $party;
 
