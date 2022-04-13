@@ -51,11 +51,17 @@ Route::delete('/{id}', [UserController::class, 'delete']);
 //CRUD party
 Route::prefix('parties')->group(function () {
 Route::get('/info', [PartyController::class, 'getAll']);
-Route::get('/{id}', [PartyController::class, 'getById']);
 Route::get('/getByGameId',[PartyController::class, "getByGameId"]);
+Route::get('/getPartiesByGameTitle', [PartyController::class, 'getPartiesByGameTitle']);
+Route::get('/getMyParties', [PartyController::class, 'getMyParties']);
+Route::get('/getPartyMembers', [PartyController::class, 'getPartyMembers']);
+Route::get('/{id}', [PartyController::class, 'getById']);
 Route::post('/create', [PartyController::class, 'create']);
+Route::post('/joinParty', [PartyController::class, 'joinParty']);
 Route::put('/{id}', [PartyController::class, 'update']);
-Route::delete('/{id}', [PartyController::class, 'delete']);
+Route::delete('/leaveParty', [PartyController::class, 'leaveParty']);
+Route::delete('/kickFromParty', [PartyController::class, 'kickFromParty']);
+Route::delete('/party/{id}', [PartyController::class, 'delete']);
 
 });
 
