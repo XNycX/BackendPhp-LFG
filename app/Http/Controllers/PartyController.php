@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Belong;
 use App\Models\Party;
 use Exception;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -30,16 +28,27 @@ class PartyController extends Controller
     }
     public function create(Request $request)
     {
+        $user = Auth::id();
+        $name = $request->input('name');
+        $game = $request->input('gameId');
+
         try {
-            $party = Party::create($request->all());
+            $party = Party::create([
+                    'owner' => $user,
+                    'name' => $name,
+                    'gameId' => $game
+                ]);
+            Belong::create([
+                    'userId' => $user,
+                    'partyId' => $party["id"]
+                ]);
             Log::info('create party done');
-            
             $data = [
                 'data' => $party,
                 'sucess' => 'ok'
             ];
-            return response()->json($data, 200);
-        } catch (Exception $exception) {
+        }  
+        catch (Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['error' => $exception->getMessage()], 500);
         }
@@ -68,8 +77,9 @@ class PartyController extends Controller
             ->get();
             return $party;
 
-        } catch (QueryException $error) {
-            return response()->json(['error' => $error->getMessage()], 500);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
     public function update(Request $request, $id)
