@@ -24,6 +24,7 @@ class MessageController extends Controller
                     'message' => $message,
                     'partyId' => $partyId
                 ]);
+                return response()->json(['message' => 'Message created successfully'], 201);
             } else {
                 return response()->json([
                 'error' => "You are not a member of that party"
@@ -48,10 +49,11 @@ class MessageController extends Controller
         $user = Auth::id();
         $messageId = $request->input('messageId');
         try {
-            $isSender = Message::where('from', '=', $user)->where('id', '=', $messageId)->get();
+            $isSender = Message::where('userId', '=', $user)->where('id', '=', $messageId)->get();
             if ($isSender->isNotEmpty()) {
                 $msg = ['message'=>$request->message];
                 return Message::where('id', '=', $messageId)->update($msg);
+                return response()->json(['message' => 'Message updated successfully'], 201);
             } else {
                 return response()->json([
                 'error' => "There was a problem updating the message"
@@ -80,6 +82,7 @@ class MessageController extends Controller
 
             if ($isSender->isNotEmpty()|$isOwner->isNotEmpty()) {
                 return Message::where('id', '=', $messageId)->delete($messageId);
+                return response()->json(['message' => 'Message deleted successfully'], 201);
             } else {
                 return response()->json([
                 'error' => "There was a problem deleting the message"
@@ -100,7 +103,7 @@ class MessageController extends Controller
             $isMember = Belong::where('userId', '=', $user)->where('partyId', '=', $partyId)->get();
             if ($isMember->isNotEmpty()) {
                 return Message::selectRaw('messages.id as MessageId, messages.message, users.userName, messages.created_at as Date')
-                    ->Join('users', 'users.id', '=', 'messages.from')
+                    ->Join('users', 'users.id', '=', 'messages.userId')
                     ->where('messages.partyId', '=', $partyId)
                     ->get();  
             } else {

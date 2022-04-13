@@ -64,7 +64,7 @@ Route::prefix('messages')->group(function () {
     Route::post('/create', [MessageController::class, 'create']);
     Route::put('/update', [MessageController::class, 'update']);
     Route::delete('/delete', [MessageController::class, 'delete']);
-    Route::post('/getPartyMessages', [MessageController::class, 'getPartyMessages']);
+    Route::get('/getPartyMessages', [MessageController::class, 'getPartyMessages']);
 
 });
 
