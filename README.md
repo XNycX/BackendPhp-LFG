@@ -1,4 +1,4 @@
-# BackendApi Films2022
+# BackendPHP LFG
 
 Es el septimo proyecto que realizo en [GeekHubs Academy](https://geekshubsacademy.com/), consiste en la realización de un Backend, utilizando MySql, Php, Laravel, Eloquent & Passport.
 
@@ -32,6 +32,10 @@ Estas instrucciones te permitirán obtener una copia del proyecto en funcionamie
 Clonarte el repositorio localmente:
 
 > git clone url del repositorio
+
+Instalar composer siguiendo este breve tutorial:
+
+> https://www.hostinger.es/tutoriales/como-instalar-composer#2_Instalando_Composer_en_Windows
   
 Instalar las depedencias necesarias:
   
