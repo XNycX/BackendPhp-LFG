@@ -1,64 +1,75 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# BackendApi Films2022
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Es el septimo proyecto que realizo en [GeekHubs Academy](https://geekshubsacademy.com/), consiste en la realización de un Backend, utilizando MySql, Php, Laravel, Eloquent & Passport.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Pre-requisitos 📋
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Necesitaremos la instalación de un programa para realizar nuestro código, en este proyecto se ha utilizado [Visual studio code](https://code.visualstudio.com/Download/),
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Tecnologías utilizadas 🚀
 
-## Learning Laravel
+El proyecto ha sido desarrollado utilizando las siguientes Tecnologías/Herramientas:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Php
+* Laravel
+* Eloquent
+* Passport
+* Mysql
+* Composer
+* Mysql Workbench
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ¿Como desplegar el proyecto? 📋
+Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo:
 
-## Laravel Sponsors
+Clonarte el repositorio localmente:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+> git clone url del repositorio
+  
+Instalar las depedencias necesarias:
+  
+> composer install
+  
+Rellenar las variables necesarias en estos archivos para iniciar el proyecto:
+  
+> env.example -> Rellenar campos DB_DATABASE, DB_USERNAME y DB_PASSWORD, una vez rellenado cambiar el nombre del archivo a .env
+  
+Creamos la base de datos siguiendo este breve tutorial utilizando Mysql Workbench:
+  
+https://codigosql.top/mysql/crear-base-de-datos/
+  
+Creamos las migraciones:
+  
+> php artisan migrate
+  
+Usamos los factories realizando los siguientes comandos en nuestro terminal (datos de prueba para nuestra base de datos):
+  
+> 1º php artisan tinker
+> 2º User::factory()->count(10)->create()
+> 3º Game::factory()->count(10)->create()
 
-### Premium Partners
+😊 Genial ya tenemos todo listo para poder llamar a los endpoints, ya podemos recibir y modificar datos 😊
+## Modelo de la base de datos 🔧
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+El diagrama de nuestra base de datos:
 
-## Contributing
+![foto](/img/Diagrama.PNG)
+  
+## Endpoints 🛠️
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+El sistema puede realizar las siguientes acciones:
 
-## Code of Conduct
+- CRUD Games
+- CRUD Parties
+- CRUD Users
+- CRUD Messages
+- Encriptación de ciertos campos mediante Bcryptjs
+- Proceso de autenticación mediante uso de passport
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Para ver mas detalladamente el funcionamiento de cada endpoints consultar el siguiente enlace:
 
-## Security Vulnerabilities
+https://documenter.getpostman.com/view/18402582/Uyr5myTq
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Autores ✒️
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* **Cristian Santamaria** - *Realización del proyecto total*
