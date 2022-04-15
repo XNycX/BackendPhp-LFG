@@ -2,6 +2,13 @@
 
 Es el septimo proyecto que realizo en [GeekHubs Academy](https://geekshubsacademy.com/), consiste en la realización de un Backend, utilizando MySql, Php, Laravel, Eloquent & Passport.
 
+El deploy del backend se ha realizado en heroku: https://laravellfg.herokuapp.com/
+
+### Organización
+
+He realizado un trello para la organización de este proyecto:
+
+![foto](/img/trello.PNG)
 
 ## Pre-requisitos 📋
 
@@ -49,6 +56,7 @@ Usamos los factories realizando los siguientes comandos en nuestro terminal (dat
 > 3º Game::factory()->count(10)->create()
 
 😊 Genial ya tenemos todo listo para poder llamar a los endpoints, ya podemos recibir y modificar datos 😊
+
 ## Modelo de la base de datos 🔧
 
 El diagrama de nuestra base de datos:
